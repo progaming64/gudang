@@ -14,7 +14,7 @@ class Barang extends CI_Controller
 
     public function index()
     {
-        $data['title'] = "Barang";
+        $data['title'] = "Sparepart";
 
         // Cek peran pengguna saat ini
         $id_user = $this->session->userdata('id_user');
@@ -23,7 +23,7 @@ class Barang extends CI_Controller
         $data['is_admin_or_finance'] = ($currentRole == 'admin' || $currentRole == 'finance');
 
         $data['currentRole'] = $currentRole; // Tambahkan ini
-         
+
         $data['barang'] = $this->admin->getBarang();
 
         $this->load->view('templates/header', $data);
@@ -32,21 +32,16 @@ class Barang extends CI_Controller
         $this->load->view('templates/footer', $data);
     }
 
-    private function _validasi()
-    {
-        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required|trim');
-    }
-
     public function tambah()
     {
         error_reporting(0);
-        $data['title'] = "Barang";
+        $data['title'] = "Input Barang Keluar";
 
-        $this->_validasi();
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required|trim');
 
         if ($this->form_validation->run() == false) {
-            $data['jenis'] = $this->admin->get('jenis');
-            $data['satuan'] = $this->admin->get('satuan');
+            // $data['jenis'] = $this->admin->get('jenis');
+            // $data['satuan'] = $this->admin->get('satuan');
             $data['supplier'] = $this->admin->get('supplier');
 
             // Mengenerate ID Barang
@@ -61,31 +56,39 @@ class Barang extends CI_Controller
             $this->load->view('dashboard/barang/barang/tambah', $data);
             $this->load->view('templates/footer', $data);
         } else {
-            $input = $this->input->post(null, true);            
-             // Tambahkan var_dump di sini
-            $insert = $this->admin->insert('barang', $input);
+            $input = $this->input->post(null, true);
+
+            // Cek apakah nama barang sudah ada
+            if ($this->admin->cekNamaBarang($input['nama_barang']) > 0) {
+                $this->session->set_flashdata('error', 'Sparepart sudah ada di menu!');
+                redirect('Barang/tambah');
+            } else {
+                $insert = $this->admin->insert('barang', $input);
+
             if ($insert) {
                 $this->session->set_flashdata('flash', 'Master sparepart berhasil di tambahkan!');
                 echo '<script>window.history.go(-2);</script>';
             } else {
-                $this->session->set_flashdata('flash', 'Master sparepart gagal di tambahkan!');
+                $this->session->set_flashdata('error', 'Master sparepart gagal di tambahkan!');
                 redirect('Barang/tambah');
             }
+        }
         }
     }
 
     public function edit($getId)
     {
-        $data['title'] = "Barang";
+        $data['title'] = "Edit Barang Keluar";
 
         $id = encode_php_tags($getId);
-        $this->_validasi();
+        
+        $this->form_validation->set_rules('nama_barang', 'Nama Barang', 'required|trim');
 
         if ($this->form_validation->run() == false) {
             $data['jenis'] = $this->admin->get('jenis');
             $data['satuan'] = $this->admin->get('satuan');
             $data['supplier'] = $this->admin->get('supplier');
-            
+
             $data['barang'] = $this->admin->get('barang', ['id_barang' => $id]);
 
             $this->load->view('templates/header', $data);
@@ -119,8 +122,15 @@ class Barang extends CI_Controller
 
     public function getstok($getId)
     {
-        $id = encode_php_tags($getId);
-        $query = $this->admin->cekStok($id);
+        $id_barang_masuk = encode_php_tags($getId);
+        $query = $this->admin->cekStok($id_barang_masuk);
+        output_json($query);
+    }
+
+    public function getstoksparepart($getId)
+    {
+        $id_barang_masuk = encode_php_tags($getId);
+        $query = $this->admin->cekStokSparepart($id_barang_masuk);
         output_json($query);
     }
 }
