@@ -70,3 +70,23 @@
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM="
+    crossorigin="anonymous"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+<?php
+    if ($this->session->flashdata('error')) { ?>
+var isi = <?php echo json_encode($this->session->flashdata('error')) ?>;
+Swal.fire({
+    title: "Error",
+    text: "<?= $this->session->flashdata('error') ?>",
+    icon: "error",
+    button: false,
+    timer: 5000,
+});
+<?php
+        unset($_SESSION['error']);
+    } ?>
+</script>

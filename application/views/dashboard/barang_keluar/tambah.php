@@ -24,82 +24,82 @@
                     <label class="col-md-4 text-md-right" for="tanggal_keluar">Tanggal Keluar</label>
                     <div class="col-md-4">
                         <?php
-                            // Menggunakan format "Y-m-d" untuk tanggal hari ini
-                            $tanggal_keluar_value = set_value('tanggal_keluar', date('Y-m-d'));
+                        // Menggunakan format "Y-m-d" untuk tanggal hari ini
+                        $tanggal_keluar_value = set_value('tanggal_keluar', date('Y-m-d'));
                         ?>
                         <input value="<?= $tanggal_keluar_value; ?>" name="tanggal_keluar" id="tanggal_keluar"
-                            type="date" class="form-control" placeholder="Tanggal Masuk..." readonly>
+                            type="date" class="form-control" placeholder="Tanggal Masuk...">
                         <?= form_error('tanggal_keluar', '<small class="text-danger">', '</small>'); ?>
                     </div>
                 </div>
 
                 <div class="row form-group">
-                    <label class="col-md-4 text-md-right" for="barang_id">Sparepart</label>
-                    <div class="col-md-5">
+                    <label class="col-md-4 text-md-right" for="id_barang_masuk">Nama Sparepart</label>
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="barang_id" id="barang_id" class="custom-select">
-                                <option value="" selected disabled>Pilih Sparepart</option>
-                                <?php foreach ($barang as $b) : ?>
-                                <option value="<?= $b['id_barang'] ?>">
-                                    <?= $b['id_barang'] . ' | ' . $b['nama_barang'] ?></option>
-                                <?php endforeach; ?>
+                            <select name="id_barang_masuk" id="id_barang_masuk" class="custom-select select2">
+                                <option value="" selected disabled>Pilih Nama</option>
+                                <?php
+                                $nama_barang_terlihat = [];
+                                foreach ($sparepart as $o) :
+                                    if (!in_array($o->nama_barang, $nama_barang_terlihat)) :
+                                        $nama_barang_terlihat[] = $o->nama_barang;
+                                ?>
+                                <option value="<?= $o->id_barang_masuk; ?>" data-id="<?= $o->barang_id; ?>">
+                                    <?= $o->nama_barang; ?> | <?php
+                                     $date = new DateTime($o->tanggal_masuk);
+                                    echo $date->format('d-m-Y'); ?>
+                                </option>
+                                <?php
+                                    endif;
+                                endforeach;
+                                ?>
                             </select>
-                            <!-- <div class="input-group-append">
-                                <a class="btn btn-primary" href="<?= base_url('barang/tambah'); ?>"><i
-                                        class="fa fa-plus"></i></a>
-                            </div> -->
                         </div>
-                        <?= form_error('barang_id', '<small class="text-danger">', '</small>'); ?>
+                        <?= form_error('id_barang_masuk', '<small class="text-danger">', '</small>'); ?>
                     </div>
                 </div>
 
+                <!-- ID BARANG  -->
+                <input type="hidden" name="id_barang" id="id_barang" value="">
+
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="supplier">Supplier</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly id="supplier" type="text" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="harga">Harga</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly id="harga" type="number" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="stok">Stok</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly="readonly" id="stok" type="number" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="jumlah_keluar">Jumlah Keluar</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
                             <input value="<?= set_value('jumlah_keluar'); ?>" name="jumlah_keluar" id="jumlah_keluar"
                                 type="number" class="form-control" placeholder="Jumlah Keluar...">
-                            <div class="input-group-append">
-                                <span class="input-group-text" id="satuan">Satuan</span>
-                            </div>
                         </div>
                         <?= form_error('jumlah_keluar', '<small class="text-danger">', '</small>'); ?>
                     </div>
                 </div>
 
-                <!-- <div class="row form-group">
-                    <label class="col-md-4 text-md-right" for="total_stok">Total Stok</label>
-                    <div class="col-md-5">
-                        <input readonly="readonly" id="total_stok" type="number" class="form-control">
-                    </div>
-                </div> -->
-
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="id_armada">Armada</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="id_armada" id="id_armada" class="custom-select">
+                            <select name="id_armada" id="id_armada" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Armada</option>
                                 <?php foreach ($armada as $ar) : ?>
                                 <option value="<?= $ar['id_armada'] ?>">
@@ -117,9 +117,9 @@
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="id_supir">Supir</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="id_supir" id="id_supir" class="custom-select">
+                            <select name="id_supir" id="id_supir" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Supir</option>
                                 <?php foreach ($supir as $sp) : ?>
                                 <option value="<?= $sp['id_supir'] ?>">
@@ -137,9 +137,9 @@
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="id_montir">Montir</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="id_montir" id="id_montir" class="custom-select">
+                            <select name="id_montir" id="id_montir" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Montir</option>
                                 <?php foreach ($montir as $mt) : ?>
                                 <option value="<?= $mt['id_montir'] ?>">
@@ -185,4 +185,24 @@ Swal.fire({
 <?php
         unset($_SESSION['error']);
     } ?>
+</script>
+
+<script>
+$(document).on('change', '#id_barang_masuk', function() {
+    // Ambil nilai dari atribut data-id
+    let selectedOption = $(this).find('option:selected');
+    let dataId = selectedOption.data('id');
+
+    // Ambil nilai dari input dengan id 'id_barang'
+    $('#id_barang').val(dataId);
+
+    let url = '<?= base_url('barang/getstoksparepart/'); ?>' + this.value;
+    $.getJSON(url, function(data) {
+        supplier_barang.val(data.nama_supplier);
+        supplier_barang_keluar.val(data.nama_supplier);
+        stok.val(data.stok);
+        harga.val(data.harga);
+        total.val(data.stok);
+    });
+});
 </script>

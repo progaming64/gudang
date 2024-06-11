@@ -80,7 +80,7 @@
                     <td><?= date('d/m/Y', strtotime($bk['tanggal_keluar'])); ?></td>
                     <td><?= $bk['nama_barang']; ?></td>
                     <td><?= $bk['nama_supplier']; ?></td>
-                    <td><?= $bk['jumlah_keluar'] . ' ' . $bk['nama_satuan']; ?></td>
+                    <td><?= $bk['jumlah_keluar']; ?></td>
                     <td><?= $bk['nama_armada']; ?></td>
                     <td><?= $bk['nama_supir']; ?></td>
                     <td><?= $bk['nama_montir']; ?></td>
