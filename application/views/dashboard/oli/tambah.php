@@ -13,7 +13,7 @@
             <div class="card-body">
                 <?= form_open('', [], ['stok' => 0]); ?>
                 <div class="row form-group">
-                    <label class="col-md-3 text-md-right" for="id_oli">Nomor Oli</label>
+                    <label class="col-md-3 text-md-right" for="id_oli">ID Oli</label>
                     <div class="col-md-9">
                         <input readonly value="<?= set_value('id_oli', $id_oli); ?>" name="id_oli" id="id_oli"
                             type="text" class="form-control">
@@ -22,10 +22,10 @@
                 </div>
 
                 <div class="row form-group">
-                    <label class="col-md-3 text-md-right" for="nama_oli">Jenis</label>
+                    <label class="col-md-3 text-md-right" for="nama_oli">Nama Oli</label>
                     <div class="col-md-9">
                         <input value="<?= set_value('nama_oli'); ?>" name="nama_oli" id="nama_oli" type="text"
-                            class="form-control" placeholder="Jenis Oli">
+                            class="form-control" placeholder="Nama Oli">
                         <?= form_error('nama_oli', '<small class="text-danger">', '</small>'); ?>
                     </div>
                 </div>

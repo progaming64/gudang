@@ -118,5 +118,4 @@ class Oli extends CI_Controller
 		$query = $this->Oli_model->cekStokOli($id_oli_masuk);
 		output_json($query);
 	}
-
 }

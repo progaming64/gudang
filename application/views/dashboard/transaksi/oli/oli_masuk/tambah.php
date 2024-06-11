@@ -25,8 +25,8 @@
                     <label class="col-md-4 text-md-right" for="tanggal_masuk">Tanggal Masuk</label>
                     <div class="col-md-4">
                         <?php
-                            // Menggunakan format "Y-m-d" untuk tanggal hari ini
-                            $tanggal_masuk_value = set_value('tanggal_masuk', date('Y-m-d'));
+                        // Menggunakan format "Y-m-d" untuk tanggal hari ini
+                        $tanggal_masuk_value = set_value('tanggal_masuk', date('Y-m-d'));
                         ?>
                         <input value="<?= $tanggal_masuk_value; ?>" name="tanggal_masuk" id="tanggal_masuk" type="date"
                             class="form-control">
@@ -38,7 +38,7 @@
                     <label class="col-md-4 text-md-right" for="oli_id">Nama Oli</label>
                     <div class="col-md-5">
                         <div class="input-group">
-                            <select name="oli_id" id="oli_id" class="custom-select">
+                            <select name="oli_id" id="oli_id" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Nama</option>
                                 <?php foreach ($oli as $oli) : ?>
                                 <option <?= $this->uri->segment(3) == $oli['id_oli'] ? 'selected' : '';  ?>

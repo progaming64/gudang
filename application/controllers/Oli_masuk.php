@@ -21,13 +21,13 @@ class Oli_masuk extends CI_Controller
 
         $data['is_admin_or_finance'] = ($currentRole == 'admin' || $currentRole == 'finance');
 
-        $data['currentRole'] = $currentRole; 
-        
+        $data['currentRole'] = $currentRole;
+
         $start_date = $this->input->get('start_date') ?? null;
-		$end_date = $this->input->get('end_date') ?? null;
-           
+        $end_date = $this->input->get('end_date') ?? null;
+
         $data['oli_masuk'] = $this->Oli_model->getOliMasuk(null, null, $start_date, $end_date);
-                
+
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('dashboard/transaksi/oli/oli_masuk/index', $data);
@@ -77,7 +77,7 @@ class Oli_masuk extends CI_Controller
 
         $this->_validasi();
         if ($this->form_validation->run() == false) {
-            // $data['supplier'] = $this->Oli_model->get('supplier');
+            // $data['supplier'] = $this->Aki_model->get('supplier');
             $data['oli'] = $this->Oli_model->get('oli');
 
             // Mendapatkan dan men-generate kode transaksi oli masuk
@@ -106,9 +106,9 @@ class Oli_masuk extends CI_Controller
             if ($oli) {
                 $total_harga = $oli['harga'] * $input['jumlah_masuk'];
                 $input['total_harga'] = $total_harga;
-    
+
                 $insert = $this->Oli_model->insert('oli_masuk', $input);
-    
+
                 if ($insert) {
                     $this->session->set_flashdata('flash', 'Data berhasil di tambahkan!');
                     redirect('oli_masuk');
@@ -121,7 +121,7 @@ class Oli_masuk extends CI_Controller
                 redirect('oli_masuk/tambah');
             }
         }
-    }  
+    }
 
     public function delete($getId)
     {

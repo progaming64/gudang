@@ -35,9 +35,9 @@
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="id_oli_masuk">Nama oli</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="id_oli_masuk" id="id_oli_masuk" class="custom-select">
+                            <select name="id_oli_masuk" id="id_oli_masuk" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Nama</option>
                                 <?php 
                                 $nama_oli_terlihat = [];
@@ -56,10 +56,6 @@
                             endforeach; 
                             ?>
                             </select>
-                            <div class="input-group-append">
-                                <a class="btn btn-primary" href="<?= base_url('oli/tambah'); ?>"><i
-                                        class="fa fa-plus"></i></a>
-                            </div>
                         </div>
                         <?= form_error('id_oli_masuk', '<small class="text-danger">', '</small>'); ?>
                     </div>
@@ -70,28 +66,28 @@
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="supplier">Supplier</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly id="supplier_oli_keluar" type="text" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="harga">Harga</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly id="harga" type="number" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="stok">Stok</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <input readonly="readonly" id="stok" type="number" class="form-control">
                     </div>
                 </div>
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="jumlah_keluar">Jumlah Keluar</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
                             <input value="<?= set_value('jumlah_keluar'); ?>" name="jumlah_keluar" id="jumlah_keluar"
                                 type="number" class="form-control" placeholder="Jumlah Keluar..." min="1">
@@ -105,9 +101,9 @@
 
                 <div class="row form-group">
                     <label class="col-md-4 text-md-right" for="id_armada">Armada</label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                         <div class="input-group">
-                            <select name="id_armada" id="id_armada" class="custom-select">
+                            <select name="id_armada" id="id_armada" class="custom-select select2">
                                 <option value="" selected disabled>Pilih Armada</option>
                                 <?php foreach ($armada as $ar) : ?>
                                 <option value="<?= $ar['id_armada'] ?>">
@@ -155,7 +151,6 @@ Swal.fire({
     } ?>
 </script>
 
-
 <script>
 $(document).on('change', '#id_oli_masuk', function() {
     // Ambil nilai dari atribut data-id
@@ -167,14 +162,10 @@ $(document).on('change', '#id_oli_masuk', function() {
 
     let url = '<?= base_url('oli/getstok/'); ?>' + this.value;
     $.getJSON(url, function(data) {
-        satuan.html(data.nama_satuan);
         supplier_oli.val(data.nama_supplier);
         supplier_oli_keluar.val(data.nama_supplier);
         stok.val(data.stok);
-        ukuran.val(data.ukuran);
         harga.val(data.harga);
-        total.val(data.stok);
-        jumlah_aki.focus();
     });
 });
 </script>

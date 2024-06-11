@@ -44,14 +44,14 @@ class Oli_model extends CI_Model
 	}
 
 	// public function listOliMasuk()	
-    // {
-    //     $this->db->select('oli_masuk.id_oli_masuk, oli.nama_oli, oli.stok');
-    //     $this->db->from('oli_masuk');
-    //     $this->db->join('oli', 'oli.id_oli = oli_masuk.oli_id', 'left');
-    //     $this->db->where('oli.stok >', 0);
-    //     $query = $this->db->get();
-    //     return $query->result();
-    // }
+	// {
+	//     $this->db->select('oli_masuk.id_oli_masuk, oli.nama_oli, oli.stok');
+	//     $this->db->from('oli_masuk');
+	//     $this->db->join('oli', 'oli.id_oli = oli_masuk.oli_id', 'left');
+	//     $this->db->where('oli.stok >', 0);
+	//     $query = $this->db->get();
+	//     return $query->result();
+	// }
 
 	public function getOliMasuk($limit = null, $id_oli = null, $start_date = null, $end_date = null)
 	{
@@ -79,10 +79,12 @@ class Oli_model extends CI_Model
 				$this->db->where('oli_masuk.tanggal_masuk <=', $end_date);
 			}
 		}
-		
+
+
+		$this->db->order_by('oli_masuk.id_oli_masuk', 'DESC');
+
 		// Hitung total harga dengan mengalikan harga_barang dengan jumlah_masuk
 		$this->db->select('(oli.harga * oli_masuk.jumlah_masuk) as total_harga', false);
-		$this->db->order_by('oli_masuk.id_oli_masuk', 'DESC');
 
 		return $this->db->get()->result_array();
 	}
@@ -149,7 +151,7 @@ class Oli_model extends CI_Model
 
 	public function chartOliKeluar($bulan)
 	{
-		$like = 'T-OM-' . date('y') . $bulan;
+		$like = 'T-OK-' . date('y') . $bulan;
 		$this->db->like('id_oli_keluar', $like, 'after');
 		return count($this->db->get('oli_keluar')->result_array());
 	}
@@ -167,17 +169,6 @@ class Oli_model extends CI_Model
 		return $result ? $result->role : null;
 	}
 
-	// public function tambahDataAki($data)
-	// {
-	//     $tanggal_pasang_baru = strtotime($data['tanggal_pasang_baru']);
-	//     $tanggal_pasang_lama = strtotime($data['tanggal_pasang_lama']);
-	//     $lama_pemakaian_hari = ($tanggal_pasang_lama - $tanggal_pasang_baru) / (60 * 60 * 24);
-
-	//     $data['lama_pemakaian_hari'] = $lama_pemakaian_hari;
-
-	//     $this->db->insert('aki', $data);
-	// }
-
 	public function hapusDataOli($id_aki)
 	{
 		$this->db->where('id_oli', $id_aki);
@@ -193,7 +184,7 @@ class Oli_model extends CI_Model
 	}
 
 	public function cekStok($id)
-	{		
+	{
 		$this->db->join('supplier', 'oli.supplier_id=supplier.id_supplier');
 		return $this->db->get_where('oli', ['id_oli' => $id])->row_array();
 	}
