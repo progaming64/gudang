@@ -106,14 +106,14 @@ class Oli_keluar extends CI_Controller
 
 			if ($insert) {
 				// UPDATE STOK OLI 
-				$id_oli = $this->input->post('id_oli');
+				// $id_oli = $this->input->post('id_oli');
 
 				// $cek_stok = $this->Oli_model->cekStok($this->input->post('id_oli_masuk'));
 				// $update_stok = $cek_stok->stok - $this->input->post('jumlah_keluar');
 
 				// $this->Oli_model->update('oli', 'id_oli', $id_oli, ['stok' => $update_stok]);
 
-				$this->session->set_flashdata('flash', 'Data berhasil ditambahkan!');
+				$this->session->set_flashdata('flash', 'Oli berhasil ditambahkan!');
 				redirect('oli_keluar');
 			} else {
 				$this->session->set_flashdata('error', 'Oops, ada kesalahan!');
