@@ -29,7 +29,7 @@ class Aki_model extends CI_Model
     }
 
     public function getAki()
-    {        
+    {
         $this->db->join('supplier', 'aki.supplier_id = supplier.id_supplier');
         $this->db->order_by('id_aki');
         return $this->db->get('aki')->result();
@@ -58,7 +58,7 @@ class Aki_model extends CI_Model
                 $this->db->where('aki_masuk.tanggal_masuk >=', $start_date);
                 $this->db->where('aki_masuk.tanggal_masuk <=', $end_date);
             }
-        }   
+        }
 
         $this->db->order_by('aki_masuk.id_aki_masuk', 'DESC');
 
@@ -82,16 +82,16 @@ class Aki_model extends CI_Model
         if ($id_aki != null) {
             $this->db->where('id_aki', $id_aki);
         }
-      	if ($start_date != null) {
+        if ($start_date != null) {
             if ($start_date == $end_date) {
-            $this->db->where('tanggal_keluar' . ' >=', $start_date['mulai']);
-        } else {
-            $this->db->where('tanggal_keluar >=', $start_date);
-            $this->db->where('tanggal_keluar <=', $end_date);
-        }
+                $this->db->where('tanggal_keluar' . ' >=', $start_date['mulai']);
+            } else {
+                $this->db->where('tanggal_keluar >=', $start_date);
+                $this->db->where('tanggal_keluar <=', $end_date);
+            }
         }
         $this->db->order_by('id_aki_keluar', 'DESC');
-        
+
         return $this->db->get('aki_keluar')->result_array();
     }
 
@@ -141,12 +141,13 @@ class Aki_model extends CI_Model
         return $this->db->get_where('aki', ['id_aki' => $id_aki])->row();
     }
 
-            // Method untuk mengambil peran (role) pengguna berdasarkan ID
-            public function get_user_role_by_id($id_user) {
-                $query = $this->db->select('role')->get_where('user', array('id_user' => $id_user));
-                $result = $query->row();
-                return $result ? $result->role : null;
-            }
+    // Method untuk mengambil peran (role) pengguna berdasarkan ID
+    public function get_user_role_by_id($id_user)
+    {
+        $query = $this->db->select('role')->get_where('user', array('id_user' => $id_user));
+        $result = $query->row();
+        return $result ? $result->role : null;
+    }
 
     public function tambahDataAki($data)
     {
@@ -183,7 +184,7 @@ class Aki_model extends CI_Model
     {
         $this->db->where('id_aki', $id_aki);
         $this->db->delete('aki');
-    }   
+    }
 
     public function laporan($table, $mulai, $akhir)
     {
@@ -194,7 +195,7 @@ class Aki_model extends CI_Model
     }
 
     public function cekStok($id)
-    {   
+    {
         $this->db->join('supplier', 'aki.supplier_id=supplier.id_supplier');
         return $this->db->get_where('aki', ['id_aki' => $id])->row_array();
     }
